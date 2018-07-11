@@ -48,7 +48,8 @@ public class HotelDatabase extends OrmLiteSqliteOpenHelper {
     public void addUser(User user) {
         try {
             Dao<User, String> userDao = getDao(User.class);
-            userDao.create(user);
+            if (getUser() == null)
+                userDao.create(user);
         } catch (SQLException ex) {
             Log.e(TAG, "addUser", ex);
         }
@@ -65,10 +66,10 @@ public class HotelDatabase extends OrmLiteSqliteOpenHelper {
         return null;
     }
 
-    public void deleteUser(){
-        try{
-          getDao(User.class).delete(getUser());
-        }catch (SQLException ex){
+    public void deleteUser() {
+        try {
+            getDao(User.class).delete(getUser());
+        } catch (SQLException ex) {
             Log.e(TAG, "deleteUser", ex);
         }
     }
