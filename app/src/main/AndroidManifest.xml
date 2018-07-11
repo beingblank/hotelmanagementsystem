@@ -20,18 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".cashier.CashierHomeActivity"
-            android:label="@string/app_name_cashier" />
-        <activity
-            android:name=".cook.CookHomeActivity"
-            android:label="@string/app_name_cook" />
-        <activity
-            android:name=".waiter.WaiterHomeActivity"
-            android:label="@string/app_name_waiter"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".admin.AdminHomeActivity"
-            android:label="@string/app_name_admin"
+            android:name=".HomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

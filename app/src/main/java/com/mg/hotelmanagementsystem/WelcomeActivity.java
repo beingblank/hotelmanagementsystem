@@ -17,14 +17,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.mg.hotelmanagementsystem.admin.AdminHomeActivity;
-import com.mg.hotelmanagementsystem.cashier.CashierHomeActivity;
-import com.mg.hotelmanagementsystem.cook.CookHomeActivity;
 import com.mg.hotelmanagementsystem.database.FirebaseTransaction;
 import com.mg.hotelmanagementsystem.database.HotelDatabase;
 import com.mg.hotelmanagementsystem.models.User;
 import com.mg.hotelmanagementsystem.util.Tools;
-import com.mg.hotelmanagementsystem.waiter.WaiterHomeActivity;
 
 import java.util.Collections;
 import java.util.List;
@@ -39,7 +35,7 @@ public class WelcomeActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        User user = new HotelDatabase(this).getUser();
+        User user = Tools.getCurrentUser(this);
         if (user != null) {
             loginUser(user);
         }
@@ -133,22 +129,7 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     private void loginUser(User user) {
-        Class<?> activityClass;
-        switch (user.getRole()) {
-            case User.WAITER:
-                activityClass = WaiterHomeActivity.class;
-                break;
-            case User.CASHIER:
-                activityClass = CashierHomeActivity.class;
-                break;
-            case User.COOK:
-                activityClass = CookHomeActivity.class;
-                break;
-            default:
-                activityClass = AdminHomeActivity.class;
-                break;
-        }
-        Intent intent = new Intent(this, activityClass);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();
     }
