@@ -129,6 +129,9 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     private void loginUser(User user) {
+        if (Tools.getCurrentUser(this) == null) {
+            new HotelDatabase(WelcomeActivity.this).addUser(user);
+        }
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();
