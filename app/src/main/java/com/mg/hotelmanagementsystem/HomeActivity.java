@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.mg.hotelmanagementsystem.fragments.MealsFragment;
 import com.mg.hotelmanagementsystem.models.User;
 import com.mg.hotelmanagementsystem.util.Tools;
 
@@ -37,12 +38,12 @@ public class HomeActivity extends BaseActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         user = Tools.getCurrentUser(this);
         if (user == null) {
             startActivity(new Intent(this, WelcomeActivity.class));
             finish();
         }
-        super.onCreate(savedInstanceState);
         setContentView(getContentView());
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -57,6 +58,8 @@ public class HomeActivity extends BaseActivity
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         setAccountDetails();
+
+        showFragment(new MealsFragment());
     }
 
     public void showFragment(Fragment fragment) {
