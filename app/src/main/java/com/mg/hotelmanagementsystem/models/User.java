@@ -13,9 +13,61 @@ public class User {
     public static final String CASHIER = "cashier";
     public static final String ADMINISTRATOR = "administrator";
 
-    public String email;
-    public String userId;
-    public String role;
-    public String displayName;
-    public String photoUrl;
+    private String email;
+    private String userId;
+    private String role;
+    private String displayName;
+    private String photoUrl;
+
+    public User(){
+
+    }
+
+    public User(FirebaseUser firebaseUser){
+        this.setEmail(firebaseUser.getEmail());
+        this.setUserId(firebaseUser.getUid());
+        this.setRole(WAITER);
+        this.setDisplayName(firebaseUser.getDisplayName());
+        this.setPhotoUrl(firebaseUser.getPhotoUrl() == null ? "": firebaseUser.getPhotoUrl().toString());
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
 }
