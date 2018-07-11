@@ -9,4 +9,11 @@
     <string name="authentication_message">Create an account or sign up to access all the services.</string>
     <string name="dialog_message_sign_in_failed">Unable to sign in. Please try again later.</string>
     <string name="dialog_title_sign_in_failed">Sign In Failed!</string>
+    <string name="dialog_title_choose_role">Choose a role</string>
+
+    <string-array name="roles">
+        <item>Waiter</item>
+        <item>Cook</item>
+        <item>Cashier</item>
+    </string-array>
 </resources>
