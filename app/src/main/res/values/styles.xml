@@ -6,6 +6,16 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="buttonStyle">@style/Button</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="Button" parent="Base.Widget.AppCompat.Button.Colored">
+        <item name="android:colorBackground">@color/colorAccent</item>
     </style>
 
 </resources>
