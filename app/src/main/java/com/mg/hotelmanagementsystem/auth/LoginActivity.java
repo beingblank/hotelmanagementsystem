@@ -1,7 +1,9 @@
-package com.mg.hotelmanagementsystem;
+package com.mg.hotelmanagementsystem.auth;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.mg.hotelmanagementsystem.R;
 
 public class LoginActivity extends AppCompatActivity {
 
