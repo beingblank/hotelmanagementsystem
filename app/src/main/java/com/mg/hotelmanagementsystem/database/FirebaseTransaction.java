@@ -23,16 +23,21 @@ public class FirebaseTransaction {
 
 
     public FirebaseTransaction(Context context) {
-        this(context, "", "Loading...");
+        this(context, true);
     }
 
-    public FirebaseTransaction(Context context, String dialogTitle, String dialogMessage) {
+    public FirebaseTransaction(Context context, boolean withDialog) {
+        this(context, "", "Loading...", withDialog);
+    }
+
+    public FirebaseTransaction(Context context, String dialogTitle, String dialogMessage, boolean withDialog) {
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle(dialogTitle);
         progressDialog.setMessage(dialogMessage);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
-        progressDialog.show();
+        if (withDialog)
+            progressDialog.show();
     }
 
     public FirebaseTransaction child(String childName) {
@@ -73,13 +78,15 @@ public class FirebaseTransaction {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                progressDialog.dismiss();
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
                 valueEventListener.onDataChange(dataSnapshot);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                progressDialog.dismiss();
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
                 valueEventListener.onCancelled(databaseError);
             }
         });
@@ -89,31 +96,36 @@ public class FirebaseTransaction {
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                progressDialog.dismiss();
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
                 childEventListener.onChildAdded(dataSnapshot, s);
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                progressDialog.dismiss();
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
                 childEventListener.onChildChanged(dataSnapshot, s);
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                progressDialog.dismiss();
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
                 childEventListener.onChildRemoved(dataSnapshot);
             }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                progressDialog.dismiss();
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
                 childEventListener.onChildMoved(dataSnapshot, s);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                progressDialog.dismiss();
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
                 childEventListener.onCancelled(databaseError);
             }
         });
