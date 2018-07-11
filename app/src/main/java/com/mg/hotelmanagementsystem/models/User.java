@@ -1,11 +1,14 @@
 package com.mg.hotelmanagementsystem.models;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Created by moses on 7/11/18.
  */
 
+@DatabaseTable(tableName = "users")
 public class User {
 
     public static final String WAITER = "waiter";
@@ -13,10 +16,15 @@ public class User {
     public static final String CASHIER = "cashier";
     public static final String ADMINISTRATOR = "administrator";
 
+    @DatabaseField
     private String email;
+    @DatabaseField(id = true)
     private String userId;
+    @DatabaseField
     private String role;
+    @DatabaseField
     private String displayName;
+    @DatabaseField
     private String photoUrl;
 
     public User(){
@@ -24,9 +32,13 @@ public class User {
     }
 
     public User(FirebaseUser firebaseUser){
+        this(firebaseUser, "");
+    }
+
+    public User(FirebaseUser firebaseUser, String role){
         this.setEmail(firebaseUser.getEmail());
         this.setUserId(firebaseUser.getUid());
-        this.setRole(WAITER);
+        this.setRole(role);
         this.setDisplayName(firebaseUser.getDisplayName());
         this.setPhotoUrl(firebaseUser.getPhotoUrl() == null ? "": firebaseUser.getPhotoUrl().toString());
     }

@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Hotel System</string>
+    <string name="app_name_waiter">Hotel System - Waiter</string>
+    <string name="app_name_cook">Hotel System - Cook</string>
+    <string name="app_name_cashier">Hotel System - Cashier</string>
+    <string name="app_name_admin">Hotel System - Admin</string>
     <string name="sign_out">Sign Out</string>
     <string name="or">or</string>
     <string name="welcome">Welcome to Hotel Management System. All rights reserved.</string>
@@ -19,4 +23,9 @@
         <item>Cook</item>
         <item>Cashier</item>
     </string-array>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

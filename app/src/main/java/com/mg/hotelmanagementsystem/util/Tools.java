@@ -16,4 +16,7 @@ public class Tools {
     public static void alert(Context context, String title, String message) {
         new AlertDialog.Builder(context).setTitle(title).setMessage(message).create().show();
     }
+
+    public interface Preferences {
+    }
 }

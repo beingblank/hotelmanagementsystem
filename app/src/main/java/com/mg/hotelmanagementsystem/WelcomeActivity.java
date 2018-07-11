@@ -11,16 +11,17 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.mg.hotelmanagementsystem.admin.AdminHomeActivity;
 import com.mg.hotelmanagementsystem.cashier.CashierHomeActivity;
 import com.mg.hotelmanagementsystem.cook.CookHomeActivity;
 import com.mg.hotelmanagementsystem.database.FirebaseTransaction;
+import com.mg.hotelmanagementsystem.database.HotelDatabase;
 import com.mg.hotelmanagementsystem.models.User;
 import com.mg.hotelmanagementsystem.util.Tools;
 import com.mg.hotelmanagementsystem.waiter.WaiterHomeActivity;
@@ -35,10 +36,13 @@ import java.util.List;
 public class WelcomeActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_SIGN_IN = 1000;
-    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        User user = new HotelDatabase(this).getUser();
+        if (user != null) {
+            loginUser(user);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
     }
@@ -65,9 +69,11 @@ public class WelcomeActivity extends BaseActivity {
                 new FirebaseTransaction(this).child("users").child(firebaseUser.getUid()).read(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        User user =  dataSnapshot.getValue(User.class);
+                        User user = dataSnapshot.getValue(User.class);
                         if (user == null) {
                             showRoleChooseDialog(firebaseUser);
+                        } else {
+                            loginUser(user);
                         }
                     }
 
@@ -84,6 +90,7 @@ public class WelcomeActivity extends BaseActivity {
 
     private void showRoleChooseDialog(FirebaseUser firebaseUser) {
         final User user = new User(firebaseUser);
+        user.setRole(User.WAITER);
         final String[] roles = getResources().getStringArray(R.array.roles);
         new AlertDialog.Builder(this)
                 .setSingleChoiceItems(R.array.roles, 0, new DialogInterface.OnClickListener() {
@@ -118,7 +125,7 @@ public class WelcomeActivity extends BaseActivity {
                                 .postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        loginUser(user);
+                                        new HotelDatabase(WelcomeActivity.this).addUser(user);
                                     }
                                 }, 1000);
                     }
@@ -138,7 +145,8 @@ public class WelcomeActivity extends BaseActivity {
                 activityClass = CookHomeActivity.class;
                 break;
             default:
-                activityClass = null;
+                activityClass = AdminHomeActivity.class;
+                break;
         }
         Intent intent = new Intent(this, activityClass);
         startActivity(intent);
