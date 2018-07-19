@@ -2,6 +2,7 @@ package com.mg.hotelmanagementsystem;
 
 import android.annotation.SuppressLint;
 import android.databinding.BindingAdapter;
+import android.graphics.Color;
 import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,9 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by moses on 7/11/18.
  */
@@ -21,7 +25,26 @@ public class DataBindingAdapters {
 
     @BindingAdapter("srcTitle")
     public static void showTextDrawable(ImageView imageView, String title) {
-        TextDrawable drawable = TextDrawable.builder().buildRound(String.valueOf(title.charAt(0)), ColorGenerator.MATERIAL.getRandomColor());
+        StringBuilder text = new StringBuilder();
+        for (String s : title.split("\\s")) {
+            if (!s.isEmpty()) {
+                text.append(Character.toUpperCase(s.charAt(0)));
+            }
+        }
+        TextDrawable drawable = TextDrawable.builder().buildRound(text.toString(), ColorGenerator.MATERIAL.getColor(title));
+        imageView.setImageDrawable(drawable);
+    }
+
+
+    @BindingAdapter("tableName")
+    public static void showTableNameDrawable(ImageView imageView, String title) {
+        String text = String.valueOf(title.charAt(0));
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(title);
+        if (matcher.find()) {
+            text = matcher.group();
+        }
+        TextDrawable drawable = TextDrawable.builder().buildRound(text, ColorGenerator.MATERIAL.getColor(text));
         imageView.setImageDrawable(drawable);
     }
 
@@ -44,8 +67,8 @@ public class DataBindingAdapters {
     }
 
     @BindingAdapter("mealCategory")
-    public static void setFoodType(TextView textView, String category) {
-        textView.setTextColor(ColorGenerator.MATERIAL.getColor(category));
-        textView.setText(category);
+    public static void setFoodType(ImageView imageView, String category) {
+        TextDrawable drawable = TextDrawable.builder().buildRoundRect(category, ColorGenerator.MATERIAL.getColor(category), 5);
+        imageView.setImageDrawable(drawable);
     }
 }
