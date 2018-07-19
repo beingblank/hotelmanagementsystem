@@ -1,5 +1,6 @@
 package com.mg.hotelmanagementsystem;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -9,14 +10,19 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.mg.hotelmanagementsystem.database.HotelDatabase;
 import com.mg.hotelmanagementsystem.fragments.MealsFragment;
+import com.mg.hotelmanagementsystem.fragments.TablesFragment;
 import com.mg.hotelmanagementsystem.models.User;
 import com.mg.hotelmanagementsystem.util.Tools;
 
@@ -59,7 +65,21 @@ public class HomeActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
         setAccountDetails();
 
-        showFragment(new MealsFragment());
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            new HotelDatabase(HomeActivity.this).deleteUser();
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.dialog_title_logged_out)
+                    .setMessage(R.string.dialog_message_logged_out)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(HomeActivity.this, WelcomeActivity.class));
+                            finish();
+                        }
+                    }).create().show();
+        } else {
+            // TODO create dashboard activity
+        }
     }
 
     public void showFragment(Fragment fragment) {
@@ -81,7 +101,7 @@ public class HomeActivity extends BaseActivity
 
         if (previous != null && !currentFragment.equals(tag)) {
             previous.setExitTransition(new android.support.transition.Fade());
-            fragmentTransaction.hide(previous).commit();
+            getSupportFragmentManager().beginTransaction().hide(previous).commit();
         }
         currentFragment = tag;
     }
@@ -115,6 +135,16 @@ public class HomeActivity extends BaseActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.nav_meals:
+                showFragment(new MealsFragment());
+                break;
+            case R.id.nav_tables:
+                showFragment(new TablesFragment());
+                break;
+        }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
