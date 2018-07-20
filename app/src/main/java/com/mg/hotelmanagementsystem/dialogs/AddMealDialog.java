@@ -85,12 +85,7 @@ public class AddMealDialog extends BaseDialog {
             new FirebaseTransaction(getContext())
                     .child("meals")
                     .push()
-                    .setValue(meal, new DatabaseReference.CompletionListener() {
-                        @Override
-                        public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                            Tools.alert(getContext(), R.string.dialog_title_add_meal, R.string.dialog_message_add_meal);
-                        }
-                    });
+                    .setValue(meal);
 
         }
     }
