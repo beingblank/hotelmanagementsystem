@@ -2,21 +2,21 @@ package com.mg.hotelmanagementsystem.models.viewmodels;
 
 import com.mg.hotelmanagementsystem.BR;
 import com.mg.hotelmanagementsystem.R;
-import com.mg.hotelmanagementsystem.models.Meal;
+import com.mg.hotelmanagementsystem.models.Table;
 
 /**
- * Created by moses on 7/11/18.
+ * Created by moses on 7/12/18.
  */
 
-public class MealsViewModel extends RecyclerViewModel<Meal> {
+public class TablesViewModel extends RecyclerViewModel<Table> {
     @Override
     public int getVariableId() {
-        return BR.meal;
+        return BR.table;
     }
 
     @Override
     public int getItemLayoutResource() {
-        return R.layout.item_meal;
+        return R.layout.item_table;
     }
 
     @Override
@@ -26,6 +26,6 @@ public class MealsViewModel extends RecyclerViewModel<Meal> {
 
     @Override
     public int getLayoutResource() {
-        return R.layout.fragment_meals;
+        return R.layout.fragment_tables;
     }
 }
