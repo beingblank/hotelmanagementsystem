@@ -1,16 +1,18 @@
 package com.mg.hotelmanagementsystem.models;
 
+import android.support.annotation.NonNull;
+
+import com.mg.surblime.BaseModel;
+
 /**
  * Created by moses on 7/11/18.
  */
 
-public class Meal {
+public class Meal extends HotelBaseModel {
 
     public static final String SNACK = "snack";
     public static final String DRINK = "drink";
     public static final String FOOD = "food";
-
-    private String mealId;
     private String mealName;
     private double price;
     private String category;
@@ -19,19 +21,10 @@ public class Meal {
 
     }
 
-    public Meal(String mealId, String mealName, double price, String category) {
-        this.setMealId(mealId);
+    public Meal(String mealName, double price, String category) {
         this.setMealName(mealName);
         this.setPrice(price);
         this.setCategory(category);
-    }
-
-    public String getMealId() {
-        return mealId;
-    }
-
-    public void setMealId(String mealId) {
-        this.mealId = mealId;
     }
 
     public String getMealName() {

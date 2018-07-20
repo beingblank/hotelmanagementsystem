@@ -3,13 +3,14 @@ package com.mg.hotelmanagementsystem.models;
 import com.google.firebase.auth.FirebaseUser;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.mg.surblime.BaseModel;
 
 /**
  * Created by moses on 7/11/18.
  */
 
 @DatabaseTable(tableName = "users")
-public class User {
+public class User extends HotelBaseModel {
 
     public static final String WAITER = "waiter";
     public static final String COOK = "cook";
@@ -18,8 +19,6 @@ public class User {
 
     @DatabaseField
     private String email;
-    @DatabaseField(id = true)
-    private String userId;
     @DatabaseField
     private String role;
     @DatabaseField
@@ -27,20 +26,20 @@ public class User {
     @DatabaseField
     private String photoUrl;
 
-    public User(){
+    public User() {
 
     }
 
-    public User(FirebaseUser firebaseUser){
+    public User(FirebaseUser firebaseUser) {
         this(firebaseUser, "");
     }
 
-    public User(FirebaseUser firebaseUser, String role){
+    public User(FirebaseUser firebaseUser, String role) {
         this.setEmail(firebaseUser.getEmail());
-        this.setUserId(firebaseUser.getUid());
+        this.setId(firebaseUser.getUid());
         this.setRole(role);
         this.setDisplayName(firebaseUser.getDisplayName());
-        this.setPhotoUrl(firebaseUser.getPhotoUrl() == null ? "": firebaseUser.getPhotoUrl().toString());
+        this.setPhotoUrl(firebaseUser.getPhotoUrl() == null ? "" : firebaseUser.getPhotoUrl().toString());
     }
 
     public String getEmail() {
@@ -49,14 +48,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getRole() {
@@ -81,5 +72,21 @@ public class User {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public boolean isAdmin() {
+        return role.equals(User.ADMINISTRATOR);
+    }
+
+    public boolean isWaiter() {
+        return role.equals(User.WAITER);
+    }
+
+    public boolean isCook() {
+        return role.equals(User.COOK);
+    }
+
+    public boolean isCashier() {
+        return role.equals(User.CASHIER);
     }
 }
