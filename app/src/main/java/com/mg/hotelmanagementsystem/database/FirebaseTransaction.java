@@ -54,7 +54,8 @@ public class FirebaseTransaction {
             @Override
             public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                 progressDialog.dismiss();
-                completionListener.onComplete(databaseError, databaseReference);
+                if (completionListener != null)
+                    completionListener.onComplete(databaseError, databaseReference);
             }
         });
     }
@@ -74,22 +75,35 @@ public class FirebaseTransaction {
         setValue(value, completionListener);
     }
 
-    public void read(final ValueEventListener valueEventListener) {
+    public void read(final ValueEventListener valueEventListener, final boolean listen) {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (progressDialog.isShowing())
                     progressDialog.dismiss();
-                valueEventListener.onDataChange(dataSnapshot);
+                if (valueEventListener != null)
+                    valueEventListener.onDataChange(dataSnapshot);
+                if (!listen) {
+                    databaseReference.removeEventListener(this);
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 if (progressDialog.isShowing())
                     progressDialog.dismiss();
-                valueEventListener.onCancelled(databaseError);
+                if (valueEventListener != null)
+                    valueEventListener.onCancelled(databaseError);
+
+                if (!listen) {
+                    databaseReference.removeEventListener(this);
+                }
             }
         });
+    }
+
+    public void read(final ValueEventListener valueEventListener) {
+        read(valueEventListener, true);
     }
 
     public void readChildren(final ChildEventListener childEventListener) {
@@ -98,35 +112,40 @@ public class FirebaseTransaction {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if (progressDialog.isShowing())
                     progressDialog.dismiss();
-                childEventListener.onChildAdded(dataSnapshot, s);
+                if (childEventListener != null)
+                    childEventListener.onChildAdded(dataSnapshot, s);
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if (progressDialog.isShowing())
                     progressDialog.dismiss();
-                childEventListener.onChildChanged(dataSnapshot, s);
+                if (childEventListener != null)
+                    childEventListener.onChildChanged(dataSnapshot, s);
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 if (progressDialog.isShowing())
                     progressDialog.dismiss();
-                childEventListener.onChildRemoved(dataSnapshot);
+                if (childEventListener != null)
+                    childEventListener.onChildRemoved(dataSnapshot);
             }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if (progressDialog.isShowing())
                     progressDialog.dismiss();
-                childEventListener.onChildMoved(dataSnapshot, s);
+                if (childEventListener != null)
+                    childEventListener.onChildMoved(dataSnapshot, s);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 if (progressDialog.isShowing())
                     progressDialog.dismiss();
-                childEventListener.onCancelled(databaseError);
+                if (childEventListener != null)
+                    childEventListener.onCancelled(databaseError);
             }
         });
     }
