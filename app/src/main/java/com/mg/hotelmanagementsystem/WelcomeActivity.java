@@ -112,7 +112,7 @@ public class WelcomeActivity extends BaseActivity {
     private void saveUser(final User user) {
         new FirebaseTransaction(this)
                 .child("users")
-                .push(user.getUserId())
+                .push(user.getId())
                 .setValue(user, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
