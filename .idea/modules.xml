@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file:///media/moses/Surblime/Android/AndroidStudio3/HotelManagementSystem/HotelManagementSystem.iml" filepath="/media/moses/Surblime/Android/AndroidStudio3/HotelManagementSystem/HotelManagementSystem.iml" />
       <module fileurl="file:///media/moses/Surblime/Android/AndroidStudio3/HotelManagementSystem/app/app.iml" filepath="/media/moses/Surblime/Android/AndroidStudio3/HotelManagementSystem/app/app.iml" />
+      <module fileurl="file:///media/moses/Surblime/Android/AndroidStudio3/HotelManagementSystem/surblime/surblime.iml" filepath="/media/moses/Surblime/Android/AndroidStudio3/HotelManagementSystem/surblime/surblime.iml" />
     </modules>
   </component>
 </project>
