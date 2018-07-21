@@ -36,4 +36,8 @@
     <string name="meal_type">Meal Type</string>
     <string name="save">Save</string>
     <string name="dialog_message_add_meal">Meal successfully created.</string>
+    <string name="dialog_title_logged_out">Logged out</string>
+    <string name="dialog_message_logged_out">You have been logged out. Sigin in again to proceed.</string>
+    <string name="dialog_title_add_table">Add Table</string>
+    <string name="hint_table_name">Table Name</string>
 </resources>

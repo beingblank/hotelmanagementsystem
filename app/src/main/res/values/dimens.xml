@@ -18,4 +18,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="profile_size">60dp</dimen>
     <dimen name="item_text_drawable_size">60dp</dimen>
+    <dimen name="meal_item_category_width">60dp</dimen>
+    <dimen name="meal_item_category_height">30dp</dimen>
 </resources>
