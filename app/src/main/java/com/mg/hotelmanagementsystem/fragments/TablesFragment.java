@@ -25,12 +25,12 @@ public class TablesFragment extends BaseCollectionFragment<TablesViewModel, Tabl
     }
 
     @Override
-    public void onItemClick(View view, Table table, int index) {
-
+    public String getRoot() {
+        return "tables";
     }
 
     @Override
-    public String getRoot() {
-        return "tables";
+    public boolean selectionAllowed() {
+        return false;
     }
 }

@@ -37,11 +37,6 @@ public class MealsFragment extends BaseCollectionFragment<MealsViewModel, Meal> 
     }
 
     @Override
-    public void onItemClick(View view, Meal meal, int index) {
-
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -62,5 +57,10 @@ public class MealsFragment extends BaseCollectionFragment<MealsViewModel, Meal> 
     @Override
     public String getRoot() {
         return "meals";
+    }
+
+    @Override
+    public boolean selectionAllowed() {
+        return false;
     }
 }
