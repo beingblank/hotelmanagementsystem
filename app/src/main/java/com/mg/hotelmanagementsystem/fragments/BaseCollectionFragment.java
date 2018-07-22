@@ -2,6 +2,7 @@ package com.mg.hotelmanagementsystem.fragments;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -13,6 +14,8 @@ import com.mg.hotelmanagementsystem.models.viewmodels.RecyclerViewModel;
 import com.mg.hotelmanagementsystem.util.Tools;
 import com.mg.surblime.ui.ResourceCollectionFragment;
 
+import java.util.ArrayList;
+
 /**
  * Created by moses on 7/13/18.
  */
@@ -20,6 +23,8 @@ import com.mg.surblime.ui.ResourceCollectionFragment;
 public abstract class BaseCollectionFragment<T extends RecyclerViewModel<S>, S extends HotelBaseModel> extends ResourceCollectionFragment<T, S> {
     private Class<T> viewModelClass;
     private Class<S> modelClass;
+
+    private ArrayList<S> selected = new ArrayList<>();
 
     public BaseCollectionFragment(Class<T> viewModelClass, Class<S> modelClass) {
         super(viewModelClass);
@@ -45,6 +50,7 @@ public abstract class BaseCollectionFragment<T extends RecyclerViewModel<S>, S e
                             }
                             onSuccess(t);
                         } catch (Exception ignore) {
+                            onFailure();
                         }
                     }
 
@@ -58,8 +64,12 @@ public abstract class BaseCollectionFragment<T extends RecyclerViewModel<S>, S e
                 .readChildren(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        getResource().addItem(dataSnapshot.getValue(modelClass));
-                        notifyDataSetChanged();
+                        S child = dataSnapshot.getValue(modelClass);
+                        child.setId(dataSnapshot.getKey());
+                        if (!getResource().getItems().contains(child)) {
+                            getResource().addItem(child);
+                            notifyDataSetChanged();
+                        }
                     }
 
                     @Override
@@ -103,4 +113,44 @@ public abstract class BaseCollectionFragment<T extends RecyclerViewModel<S>, S e
     }
 
     public abstract String getRoot();
+
+    @Override
+    public void onItemClick(View view, S s, int index) {
+        select(s);
+    }
+
+    private boolean select(S s) {
+        if (selectionAllowed()) {
+            int index = getIndex(s);
+
+            s.toggleSelection();
+            if (s.isSelected()) {
+                if (isSingleSelection() && !selected.isEmpty()) {
+                    S current = selected.get(0);
+                    current.setSelected(false);
+                    selected.clear();
+
+                    notifyItemChanged(getIndex(current));
+                }
+                selected.add(s);
+            } else {
+                selected.remove(s);
+            }
+
+            notifyItemChanged(index);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onItemLongClick(View view, S s) {
+        return select(s);
+    }
+
+    public boolean isSingleSelection() {
+        return false;
+    }
+
+    public abstract boolean selectionAllowed();
 }
