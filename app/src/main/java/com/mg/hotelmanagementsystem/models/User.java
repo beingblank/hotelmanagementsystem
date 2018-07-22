@@ -89,4 +89,9 @@ public class User extends HotelBaseModel {
     public boolean isCashier() {
         return role.equals(User.CASHIER);
     }
+
+    @Override
+    public String getTitle() {
+        return displayName;
+    }
 }

@@ -25,4 +25,9 @@ public class Table extends HotelBaseModel{
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
+
+    @Override
+    public String getTitle() {
+        return tableName;
+    }
 }

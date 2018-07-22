@@ -21,7 +21,7 @@ public class MealsViewModel extends RecyclerViewModel<Meal> {
 
     @Override
     public int getItemListenerId() {
-        return 0;
+        return BR.listener;
     }
 
     @Override

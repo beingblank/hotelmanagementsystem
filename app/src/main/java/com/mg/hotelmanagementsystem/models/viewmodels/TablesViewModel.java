@@ -21,7 +21,7 @@ public class TablesViewModel extends RecyclerViewModel<Table> {
 
     @Override
     public int getItemListenerId() {
-        return 0;
+        return BR.listener;
     }
 
     @Override

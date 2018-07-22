@@ -50,4 +50,9 @@ public class Meal extends HotelBaseModel {
     public void setCategory(String category) {
         this.category = category;
     }
+
+    @Override
+    public String getTitle() {
+        return mealName;
+    }
 }
