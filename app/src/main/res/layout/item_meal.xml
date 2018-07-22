@@ -21,7 +21,7 @@
             android:padding="@dimen/padding_normal">
 
             <android.support.v7.widget.AppCompatImageView
-                srcTitle="@{ meal.mealName }"
+                srcTitle="@{ meal }"
                 android:layout_width="@dimen/item_text_drawable_size"
                 android:layout_height="@dimen/item_text_drawable_size" />
 
@@ -61,10 +61,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
+            android:layout_marginEnd="@dimen/margin_extra_large"
             android:layout_marginLeft="@dimen/margin_extra_large"
             android:layout_marginRight="@dimen/margin_extra_large"
             android:layout_marginStart="@dimen/margin_extra_large"
-            android:layout_marginEnd="@dimen/margin_extra_large"
             android:background="@color/md_grey_500" />
     </LinearLayout>
 </layout>

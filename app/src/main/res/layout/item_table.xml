@@ -6,11 +6,18 @@
         <variable
             name="table"
             type="com.mg.hotelmanagementsystem.models.Table" />
+
+        <variable
+            name="listener"
+            type="com.mg.surblime.ObservableRecyclerViewModel.OnItemClickListener" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@{ table.isSelected() ? @color/md_grey_100 : @color/transparent }"
+        android:onClick="@{ (view) -> listener.onItemClick(view, table) }"
+        android:onLongClick="@{ (view) -> listener.onItemLongClick(view, table) }"
         android:orientation="vertical">
 
         <LinearLayout
@@ -20,7 +27,7 @@
             android:padding="@dimen/padding_normal">
 
             <android.support.v7.widget.AppCompatImageView
-                tableName="@{ table.tableName }"
+                srcTitle="@{ table }"
                 android:layout_width="@dimen/item_text_drawable_size"
                 android:layout_height="@dimen/item_text_drawable_size" />
 
