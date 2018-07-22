@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mg.hotelmanagementsystem.database.HotelDatabase;
 import com.mg.hotelmanagementsystem.fragments.MealsFragment;
+import com.mg.hotelmanagementsystem.fragments.OrderMealFragment;
 import com.mg.hotelmanagementsystem.fragments.TablesFragment;
 import com.mg.hotelmanagementsystem.models.User;
 import com.mg.hotelmanagementsystem.util.Tools;
@@ -143,6 +144,9 @@ public class HomeActivity extends BaseActivity
                 break;
             case R.id.nav_tables:
                 showFragment(new TablesFragment());
+                break;
+            case R.id.nav_orders:
+                showFragment(new OrderMealFragment());
                 break;
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
