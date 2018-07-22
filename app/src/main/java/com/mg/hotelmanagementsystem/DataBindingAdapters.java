@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.mg.hotelmanagementsystem.models.HotelBaseModel;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,29 +25,22 @@ import java.util.regex.Pattern;
 public class DataBindingAdapters {
 
     @BindingAdapter("srcTitle")
-    public static void showTextDrawable(ImageView imageView, String title) {
-        StringBuilder text = new StringBuilder();
-        for (String s : title.split("\\s")) {
-            if (!s.isEmpty()) {
-                text.append(Character.toUpperCase(s.charAt(0)));
+    public static void showTextDrawable(ImageView imageView, HotelBaseModel hotelBaseModel) {
+        if (hotelBaseModel.isSelected()) {
+            TextDrawable drawable = TextDrawable.builder().buildRound("✔", imageView.getContext().getResources().getColor(R.color.md_green_500));
+            imageView.setImageDrawable(drawable);
+        } else {
+            StringBuilder text = new StringBuilder();
+            for (String s : hotelBaseModel.getTitle().split("\\s")) {
+                if (!s.isEmpty()) {
+                    text.append(Character.toUpperCase(s.charAt(0)));
+                }
             }
+            TextDrawable drawable = TextDrawable.builder().buildRound(text.toString(), ColorGenerator.MATERIAL.getColor(hotelBaseModel.getId()));
+            imageView.setImageDrawable(drawable);
         }
-        TextDrawable drawable = TextDrawable.builder().buildRound(text.toString(), ColorGenerator.MATERIAL.getColor(title));
-        imageView.setImageDrawable(drawable);
     }
 
-
-    @BindingAdapter("tableName")
-    public static void showTableNameDrawable(ImageView imageView, String title) {
-        String text = String.valueOf(title.charAt(0));
-        Pattern pattern = Pattern.compile("\\d+");
-        Matcher matcher = pattern.matcher(title);
-        if (matcher.find()) {
-            text = matcher.group();
-        }
-        TextDrawable drawable = TextDrawable.builder().buildRound(text, ColorGenerator.MATERIAL.getColor(text));
-        imageView.setImageDrawable(drawable);
-    }
 
     @SuppressLint("DefaultLocale")
     @BindingAdapter("price")
