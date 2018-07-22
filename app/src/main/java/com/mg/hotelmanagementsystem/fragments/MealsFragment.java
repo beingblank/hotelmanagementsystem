@@ -54,6 +54,17 @@ public class MealsFragment extends BaseCollectionFragment<MealsViewModel, Meal> 
         setSwipeToRefreshEnabled(false);
     }
 
+
+    @Override
+    public void onSuccess(MealsViewModel mealsViewModel) {
+        super.onSuccess(mealsViewModel);
+        findViewById(R.id.addMealFAB).setVisibility(addMeal() ? View.VISIBLE : View.GONE);
+    }
+
+    public boolean addMeal() {
+        return true;
+    }
+
     @Override
     public String getRoot() {
         return "meals";

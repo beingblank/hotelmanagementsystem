@@ -43,6 +43,11 @@ public class WelcomeActivity extends BaseActivity {
         setContentView(R.layout.activity_welcome);
     }
 
+    @Override
+    public int getStyleTheme() {
+        return R.style.AppTheme_NoActionBar;
+    }
+
     public void signIn(View view) {
         List<AuthUI.IdpConfig> providers = Collections.singletonList(
                 new AuthUI.IdpConfig.EmailBuilder().build()

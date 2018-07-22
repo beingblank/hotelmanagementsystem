@@ -12,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,12 +21,10 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mg.hotelmanagementsystem.database.HotelDatabase;
 import com.mg.hotelmanagementsystem.fragments.MealsFragment;
-import com.mg.hotelmanagementsystem.fragments.OrderMealFragment;
+import com.mg.hotelmanagementsystem.fragments.OrdersFragment;
 import com.mg.hotelmanagementsystem.fragments.TablesFragment;
 import com.mg.hotelmanagementsystem.models.User;
 import com.mg.hotelmanagementsystem.util.Tools;
-
-import java.util.ArrayList;
 
 /**
  * Created by moses on 7/11/18.
@@ -81,6 +78,11 @@ public class HomeActivity extends BaseActivity
         } else {
             // TODO create dashboard activity
         }
+    }
+
+    @Override
+    public int getStyleTheme() {
+        return R.style.AppTheme_NoActionBar;
     }
 
     public void showFragment(Fragment fragment) {
@@ -146,7 +148,7 @@ public class HomeActivity extends BaseActivity
                 showFragment(new TablesFragment());
                 break;
             case R.id.nav_orders:
-                showFragment(new OrderMealFragment());
+                showFragment(new OrdersFragment());
                 break;
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

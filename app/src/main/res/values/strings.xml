@@ -41,4 +41,5 @@
     <string name="dialog_title_add_table">Add Table</string>
     <string name="hint_table_name">Table Name</string>
     <string name="choose_table">Choose Table</string>
+    <string name="choose_meal">Choose Meal</string>
 </resources>

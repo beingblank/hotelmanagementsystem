@@ -4,6 +4,9 @@
     <data>
 
         <variable
+            name="listener"
+            type="com.mg.surblime.ObservableRecyclerViewModel.OnItemClickListener"/>
+        <variable
             name="meal"
             type="com.mg.hotelmanagementsystem.models.Meal" />
     </data>
@@ -11,6 +14,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@{ meal.isSelected() ? @color/md_grey_100 : @color/transparent }"
+        android:onClick="@{ (view) -> listener.onItemClick(view, meal) }"
+        android:onLongClick="@{ (view) -> listener.onItemLongClick(view, meal) }"
         android:orientation="vertical">
 
 
@@ -45,7 +51,7 @@
                         android:textStyle="bold" />
 
                     <ImageView
-                        mealCategory="@{ meal.category }"
+                        badge="@{ meal.category }"
                         android:layout_width="@dimen/meal_item_category_width"
                         android:layout_height="@dimen/meal_item_category_height" />
                 </LinearLayout>

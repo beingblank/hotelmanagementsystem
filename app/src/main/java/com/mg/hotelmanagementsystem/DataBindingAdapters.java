@@ -13,8 +13,12 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.github.marlonlom.utilities.timeago.TimeAgo;
 import com.mg.hotelmanagementsystem.models.HotelBaseModel;
+import com.mg.hotelmanagementsystem.models.Meal;
+import com.mg.hotelmanagementsystem.models.Order;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,9 +64,28 @@ public class DataBindingAdapters {
         }
     }
 
-    @BindingAdapter("mealCategory")
-    public static void setFoodType(ImageView imageView, String category) {
+    @BindingAdapter("badge")
+    public static void setBadge(ImageView imageView, String category) {
         TextDrawable drawable = TextDrawable.builder().buildRoundRect(category, ColorGenerator.MATERIAL.getColor(category), 5);
         imageView.setImageDrawable(drawable);
+    }
+
+    @BindingAdapter("meals")
+    public static void setMeals(TextView textView, List<Meal> meals) {
+        StringBuilder output = new StringBuilder();
+        for (Meal meal : meals) {
+            output.append(meal.getMealName()).append(" - Ksh ").append((int) meal.getPrice()).append("\n");
+        }
+        textView.setText(output.toString());
+    }
+
+    @BindingAdapter("mealsTotal")
+    public static void setMealsTotal(TextView textView, Order order) {
+        textView.setText("Total Ksh. " + order.getTotal());
+    }
+
+    @BindingAdapter("time")
+    public static void setTime(TextView textView, long milliseconds) {
+        textView.setText(TimeAgo.using(milliseconds));
     }
 }

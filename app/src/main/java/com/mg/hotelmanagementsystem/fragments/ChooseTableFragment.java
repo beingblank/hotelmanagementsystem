@@ -5,19 +5,20 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mg.hotelmanagementsystem.R;
 import com.mg.hotelmanagementsystem.models.Table;
+import com.stepstone.stepper.BlockingStep;
 import com.stepstone.stepper.Step;
+import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
 
 /**
  * Created by moses on 7/22/18.
  */
 
-public class ChooseTableFragment extends TablesFragment implements Step {
-
-    private boolean selection = false;
+public class ChooseTableFragment extends TablesFragment implements BlockingStep {
 
     @Nullable
     @Override
@@ -37,6 +38,11 @@ public class ChooseTableFragment extends TablesFragment implements Step {
     }
 
     @Override
+    public boolean addTable() {
+        return false;
+    }
+
+    @Override
     public void onError(@NonNull VerificationError error) {
 
     }
@@ -49,5 +55,24 @@ public class ChooseTableFragment extends TablesFragment implements Step {
     @Override
     public boolean selectionAllowed() {
         return true;
+    }
+
+    @Override
+    public void onNextClicked(StepperLayout.OnNextClickedCallback callback) {
+        if (!getSelected().isEmpty()) {
+            callback.goToNextStep();
+        } else {
+            Toast.makeText(getContext(), "Choose a table first", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onCompleteClicked(StepperLayout.OnCompleteClickedCallback callback) {
+
+    }
+
+    @Override
+    public void onBackClicked(StepperLayout.OnBackClickedCallback callback) {
+
     }
 }

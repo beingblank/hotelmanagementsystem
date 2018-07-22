@@ -9,6 +9,7 @@ import com.mg.hotelmanagementsystem.models.Table;
  */
 
 public class TablesViewModel extends RecyclerViewModel<Table> {
+
     @Override
     public int getVariableId() {
         return BR.table;

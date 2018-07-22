@@ -1,5 +1,7 @@
 package com.mg.hotelmanagementsystem.fragments;
 
+import android.content.Context;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -121,6 +123,9 @@ public abstract class BaseCollectionFragment<T extends RecyclerViewModel<S>, S e
 
     private boolean select(S s) {
         if (selectionAllowed()) {
+            Vibrator vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null)
+                vibrator.vibrate(50);
             int index = getIndex(s);
 
             s.toggleSelection();
@@ -153,4 +158,8 @@ public abstract class BaseCollectionFragment<T extends RecyclerViewModel<S>, S e
     }
 
     public abstract boolean selectionAllowed();
+
+    public ArrayList<S> getSelected() {
+        return selected;
+    }
 }
