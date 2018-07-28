@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 
 import com.mg.hotelmanagementsystem.fragments.ChooseMealFragment;
 import com.mg.hotelmanagementsystem.fragments.ChooseTableFragment;
+import com.mg.hotelmanagementsystem.fragments.OrderSummaryFragment;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.adapter.AbstractFragmentStepAdapter;
 
@@ -25,6 +26,8 @@ public class MakeOrderStepperAdapter extends AbstractFragmentStepAdapter {
                 return new ChooseTableFragment();
             case 1:
                 return new ChooseMealFragment();
+            case 2:
+                return new OrderSummaryFragment();
             default:
                 return null;
         }
@@ -32,6 +35,6 @@ public class MakeOrderStepperAdapter extends AbstractFragmentStepAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 }

@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mg.hotelmanagementsystem.MakeOrderActivity;
 import com.mg.hotelmanagementsystem.R;
+import com.mg.hotelmanagementsystem.models.Order;
 import com.mg.hotelmanagementsystem.models.Table;
 import com.stepstone.stepper.BlockingStep;
 import com.stepstone.stepper.Step;
@@ -60,6 +62,10 @@ public class ChooseTableFragment extends TablesFragment implements BlockingStep 
     @Override
     public void onNextClicked(StepperLayout.OnNextClickedCallback callback) {
         if (!getSelected().isEmpty()) {
+            Order order = new Order();
+            order.setTable(getSelected().get(0));
+
+            ((MakeOrderActivity) getActivity()).setOrder(order);
             callback.goToNextStep();
         } else {
             Toast.makeText(getContext(), "Choose a table first", Toast.LENGTH_SHORT).show();

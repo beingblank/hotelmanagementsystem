@@ -16,8 +16,8 @@ public class Order extends HotelBaseModel {
     public static final String STATUS_SERVED = "Served";
     public static final String STATUS_PAID = "Paid";
 
-    private String title;
-    private Table table;
+    private String orderId = "";
+    private Table table = new Table();
     private List<Meal> meals = new ArrayList<>();
     private long orderDate;
     private long servedAt;
@@ -30,7 +30,7 @@ public class Order extends HotelBaseModel {
 
     public HashMap<String, Object> toMap() {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("title", getTitle());
+        map.put("orderId", getTitle());
         map.put("table", table.getId());
         map.put("orderDate", getOrderDate());
         map.put("paid", isPaid());
@@ -49,7 +49,7 @@ public class Order extends HotelBaseModel {
     }
 
     public Order(HashMap<String, Object> map) {
-        setTitle((String) map.get("title"));
+        setOrderId((String) map.get("orderId"));
         setTable((Table) map.get("table"));
         setOrderDate((Long) map.get("orderDate"));
         setPaid((boolean) map.get("paid"));
@@ -67,11 +67,11 @@ public class Order extends HotelBaseModel {
 
     @Override
     public String getTitle() {
-        return title;
+        return orderId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public Table getTable() {

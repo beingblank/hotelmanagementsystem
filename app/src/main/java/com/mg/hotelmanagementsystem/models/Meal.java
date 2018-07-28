@@ -17,6 +17,15 @@ public class Meal extends HotelBaseModel {
     private double price;
     private String category;
 
+    public Meal(Meal meal) {
+        this.mealName = meal.mealName;
+        this.price = meal.price;
+        this.category = meal.category;
+        this.setId(meal.getId());
+        this.setSelected(false);
+        this.setUser(meal.getUser());
+    }
+
     public Meal() {
 
     }

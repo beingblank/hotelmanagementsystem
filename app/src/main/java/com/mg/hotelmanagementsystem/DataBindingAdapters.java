@@ -81,7 +81,9 @@ public class DataBindingAdapters {
 
     @BindingAdapter("mealsTotal")
     public static void setMealsTotal(TextView textView, Order order) {
-        textView.setText("Total Ksh. " + order.getTotal());
+        if (order != null) {
+            textView.setText("Total Ksh. " + order.getTotal());
+        }
     }
 
     @BindingAdapter("time")

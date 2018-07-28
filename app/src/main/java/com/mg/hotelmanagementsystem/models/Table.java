@@ -8,7 +8,7 @@ import com.mg.surblime.BaseModel;
 
 public class Table extends HotelBaseModel{
 
-    private String tableName;
+    private String tableName = "";
 
     public Table(){
 
