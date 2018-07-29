@@ -28,6 +28,19 @@ import java.util.regex.Pattern;
 
 public class DataBindingAdapters {
 
+
+    @BindingAdapter("orderStatus")
+    public static void showOrderStatus(ImageView imageView, Order order) {
+        if (order.isSelected()) {
+            TextDrawable drawable = TextDrawable.builder().buildRound("✔", imageView.getContext().getResources().getColor(R.color.md_green_500));
+            imageView.setImageDrawable(drawable);
+        } else {
+            String text = order.getStatus();
+            TextDrawable drawable = TextDrawable.builder().buildRound(text, ColorGenerator.MATERIAL.getColor(order.getStatus()));
+            imageView.setImageDrawable(drawable);
+        }
+    }
+
     @BindingAdapter("srcTitle")
     public static void showTextDrawable(ImageView imageView, HotelBaseModel hotelBaseModel) {
         if (hotelBaseModel.isSelected()) {

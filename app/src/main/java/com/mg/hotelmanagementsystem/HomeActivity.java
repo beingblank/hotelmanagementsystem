@@ -5,25 +5,30 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.mg.hotelmanagementsystem.adapters.MainViewPagerAdapter;
 import com.mg.hotelmanagementsystem.database.HotelDatabase;
 import com.mg.hotelmanagementsystem.fragments.MealsFragment;
 import com.mg.hotelmanagementsystem.fragments.OrdersFragment;
 import com.mg.hotelmanagementsystem.fragments.TablesFragment;
 import com.mg.hotelmanagementsystem.models.User;
+import com.mg.hotelmanagementsystem.util.PushNotificationManager;
 import com.mg.hotelmanagementsystem.util.Tools;
 
 /**
@@ -37,12 +42,22 @@ public class HomeActivity extends BaseActivity
     public DrawerLayout drawer;
     public NavigationView navigationView;
 
+    private ViewPager viewPager;
+    private MainViewPagerAdapter mainViewPagerAdapter;
+
+    private TabLayout tabLayout;
+
     public User user;
     private String currentFragment = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
+    }
+
+
+    private void init() {
         user = Tools.getCurrentUser(this);
         if (user == null) {
             startActivity(new Intent(this, WelcomeActivity.class));
@@ -76,38 +91,22 @@ public class HomeActivity extends BaseActivity
                         }
                     }).create().show();
         } else {
-            // TODO create dashboard activity
+            viewPager = findViewById(R.id.viewPager);
+            viewPager.setAdapter(mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager(), getResources().getStringArray(R.array.main_pages)));
+
+            tabLayout = findViewById(R.id.tabLayout);
+            tabLayout.setupWithViewPager(viewPager);
+            viewPager.setOffscreenPageLimit(mainViewPagerAdapter.getCount());
         }
+
+        PushNotificationManager.init(this);
     }
 
     @Override
     public int getStyleTheme() {
-        return R.style.AppTheme_NoActionBar;
+        return R.style.AppTheme_Translucent;
     }
 
-    public void showFragment(Fragment fragment) {
-        String tag = fragment.getClass().getName();
-        Fragment previous = getSupportFragmentManager().findFragmentByTag(this.currentFragment);
-        Fragment newFragment = getSupportFragmentManager().findFragmentByTag(tag);
-
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        if (newFragment == null) {
-            newFragment = fragment;
-            fragmentTransaction.add(R.id.mainContent, newFragment, tag);
-            newFragment.setEnterTransition(new android.support.transition.Fade());
-            fragmentTransaction.commit();
-        } else {
-            newFragment.setEnterTransition(new android.support.transition.Fade());
-            fragmentTransaction.show(newFragment);
-            fragmentTransaction.commit();
-        }
-
-        if (previous != null && !currentFragment.equals(tag)) {
-            previous.setExitTransition(new android.support.transition.Fade());
-            getSupportFragmentManager().beginTransaction().hide(previous).commit();
-        }
-        currentFragment = tag;
-    }
 
     public @LayoutRes
     int getContentView() {
@@ -141,16 +140,14 @@ public class HomeActivity extends BaseActivity
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.nav_meals:
-                showFragment(new MealsFragment());
-                break;
-            case R.id.nav_tables:
-                showFragment(new TablesFragment());
-                break;
-            case R.id.nav_orders:
-                showFragment(new OrdersFragment());
+            case R.id.nav_logout:
+                new HotelDatabase(this).deleteUser();
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(this, WelcomeActivity.class));
+                finish();
                 break;
         }
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

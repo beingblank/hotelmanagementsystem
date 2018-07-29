@@ -34,6 +34,9 @@ public class Tools {
         if (user == null) {
             user = new HotelDatabase(context).getUser();
         }
+        if (new HotelDatabase(context).getUser() == null) {
+            user = null;
+        }
         return user;
     }
 

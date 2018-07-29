@@ -21,6 +21,7 @@ import com.mg.hotelmanagementsystem.databinding.FragmentMealsBinding;
 import com.mg.hotelmanagementsystem.dialogs.AddMealDialog;
 import com.mg.hotelmanagementsystem.models.Meal;
 import com.mg.hotelmanagementsystem.models.viewmodels.MealsViewModel;
+import com.mg.hotelmanagementsystem.util.Tools;
 import com.mg.surblime.ui.ResourceCollectionFragment;
 
 import java.util.HashMap;
@@ -62,7 +63,7 @@ public class MealsFragment extends BaseCollectionFragment<MealsViewModel, Meal> 
     }
 
     public boolean addMeal() {
-        return true;
+        return Tools.getCurrentUser(getContext()).isAdmin();
     }
 
     @Override

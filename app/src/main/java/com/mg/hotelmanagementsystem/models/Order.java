@@ -1,7 +1,10 @@
 package com.mg.hotelmanagementsystem.models;
 
+import android.content.Context;
+
+import com.mg.hotelmanagementsystem.util.Tools;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -26,40 +29,6 @@ public class Order extends HotelBaseModel {
     private boolean mealsReady = false;
     private boolean served = false;
     private String status = Order.STATUS_PENDING;
-
-
-    public HashMap<String, Object> toMap() {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("orderId", getTitle());
-        map.put("table", table.getId());
-        map.put("orderDate", getOrderDate());
-        map.put("paid", isPaid());
-        map.put("mealsReady", isMealsReady());
-        map.put("served", isServed());
-        map.put("servedAt", getServedAt());
-        map.put("status", getStatus());
-        map.put("paidAt", getPaidAt());
-        List<String> meals = new ArrayList<>();
-        for (Meal meal : this.meals) {
-            meals.add(meal.getId());
-        }
-        map.put("meals", meals);
-
-        return map;
-    }
-
-    public Order(HashMap<String, Object> map) {
-        setOrderId((String) map.get("orderId"));
-        setTable((Table) map.get("table"));
-        setOrderDate((Long) map.get("orderDate"));
-        setPaid((boolean) map.get("paid"));
-        setMealsReady((boolean) map.get("mealsReady"));
-        setServed((boolean) map.get("served"));
-        setMeals((List<Meal>) map.get("meals"));
-        setPaidAt((Long) map.get("paidAt"));
-        setServedAt((Long) map.get("servedAt"));
-        setStatus((String) map.get("status"));
-    }
 
     public Order() {
 
@@ -153,4 +122,25 @@ public class Order extends HotelBaseModel {
         }
         return total;
     }
+
+    public static String[] getStatuses(Context context) {
+        final String[] statuses;
+
+        switch (Tools.getCurrentUser(context).getRole()) {
+            case User.ADMINISTRATOR:
+                statuses = new String[]{Order.STATUS_PENDING, Order.STATUS_KITCHEN, Order.STATUS_READY, Order.STATUS_SERVED, Order.STATUS_PAID};
+                break;
+            case User.WAITER:
+                statuses = new String[]{Order.STATUS_PENDING, Order.STATUS_READY, Order.STATUS_SERVED};
+                break;
+            case User.COOK:
+                statuses = new String[]{Order.STATUS_PENDING, Order.STATUS_KITCHEN, Order.STATUS_READY};
+                break;
+            default:
+                statuses = new String[]{Order.STATUS_SERVED, Order.STATUS_PAID};
+                break;
+        }
+        return statuses;
+    }
+
 }

@@ -20,4 +20,5 @@
     <dimen name="item_text_drawable_size">60dp</dimen>
     <dimen name="meal_item_category_width">60dp</dimen>
     <dimen name="meal_item_category_height">30dp</dimen>
+    <dimen name="collapsing_toolbar_height">240dp</dimen>
 </resources>

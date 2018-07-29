@@ -83,15 +83,7 @@ public class ChooseMealFragment extends MealsFragment implements BlockingStep {
 
     @Override
     public void onCompleteClicked(final StepperLayout.OnCompleteClickedCallback callback) {
-        new FirebaseTransaction(getContext())
-                .child("orders")
-                .push()
-                .setValue(makeOrderActivity.getOrder().toMap(), new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                        callback.complete();
-                    }
-                });
+
     }
 
     @Override

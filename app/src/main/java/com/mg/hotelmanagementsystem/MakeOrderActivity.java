@@ -1,10 +1,14 @@
 package com.mg.hotelmanagementsystem;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.mg.hotelmanagementsystem.adapters.MakeOrderStepperAdapter;
+import com.mg.hotelmanagementsystem.database.FirebaseTransaction;
 import com.mg.hotelmanagementsystem.models.Order;
 import com.mg.surblime.activities.ToolbarActivity;
 import com.stepstone.stepper.StepperLayout;
@@ -65,7 +69,16 @@ public class MakeOrderActivity extends ToolbarActivity implements StepperLayout.
 
     @Override
     public void onCompleted(View completeButton) {
-        finish();
+        order.setOrderDate(System.currentTimeMillis());
+        new FirebaseTransaction(this)
+                .child("orders")
+                .push()
+                .setValue(getOrder(), new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                        finish();
+                    }
+                });
     }
 
     @Override

@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * Created by moses on 7/13/18.
  */
 
-public abstract class BaseCollectionFragment<T extends RecyclerViewModel<S>, S extends HotelBaseModel> extends ResourceCollectionFragment<T, S> {
+public abstract class BaseCollectionFragment<T extends RecyclerViewModel<S>, S extends HotelBaseModel> extends ResourceCollectionFragment<T, S> implements ValueEventListener, ChildEventListener {
     private Class<T> viewModelClass;
     private Class<S> modelClass;
 
@@ -39,79 +39,10 @@ public abstract class BaseCollectionFragment<T extends RecyclerViewModel<S>, S e
         setSwipeToRefreshEnabled(false);
         new FirebaseTransaction(getContext(), false)
                 .child(getRoot())
-                .read(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        try {
-                            T t = viewModelClass.newInstance();
-                            t.setUser(Tools.getCurrentUser(getContext()));
-                            for (DataSnapshot child : dataSnapshot.getChildren()) {
-                                S item = child.getValue(modelClass);
-                                item.setId(child.getKey());
-                                t.addItem(item);
-                            }
-                            onSuccess(t);
-                        } catch (Exception ignore) {
-                            onFailure();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        onFailure();
-                    }
-                }, false);
+                .read(this, false);
         new FirebaseTransaction(getContext(), false)
                 .child(getRoot())
-                .readChildren(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        S child = dataSnapshot.getValue(modelClass);
-                        child.setId(dataSnapshot.getKey());
-                        if (!getResource().getItems().contains(child)) {
-                            getResource().addItem(child);
-                            notifyDataSetChanged();
-                        }
-                    }
-
-                    @Override
-                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        for (S item : getResource().getItems()) {
-                            if (item.getId().equals(dataSnapshot.getKey())) {
-                                int index = getResource().getItems().indexOf(item);
-                                S newItem = dataSnapshot.getValue(modelClass);
-                                if (newItem != null) {
-                                    newItem.setId(item.getId());
-                                    getResource().updateItem(newItem, index);
-                                    notifyItemChanged(index);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                        for (S item : getResource().getItems()) {
-                            if (item.getId().equals(dataSnapshot.getKey())) {
-                                int index = getResource().getItems().indexOf(item);
-                                getResource().getItems().remove(index);
-                                notifyItemRemoved(index);
-                                break;
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        onFailure();
-                    }
-                });
+                .readChildren(this);
     }
 
     public abstract String getRoot();
@@ -161,5 +92,74 @@ public abstract class BaseCollectionFragment<T extends RecyclerViewModel<S>, S e
 
     public ArrayList<S> getSelected() {
         return selected;
+    }
+
+    @Override
+    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        try {
+            T t = viewModelClass.newInstance();
+            t.setUser(Tools.getCurrentUser(getContext()));
+            for (DataSnapshot child : dataSnapshot.getChildren()) {
+                S item = readValue(child);
+                item.setId(child.getKey());
+                t.addItem(item);
+            }
+            onSuccess(t);
+        } catch (Exception ignore) {
+            onFailure();
+        }
+    }
+
+
+    @Override
+    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+        S child = readValue(dataSnapshot);
+        child.setId(dataSnapshot.getKey());
+        if (!getResource().getItems().contains(child)) {
+            getResource().addItem(child);
+            notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+        for (S item : getResource().getItems()) {
+            if (item.getId().equals(dataSnapshot.getKey())) {
+                int index = getResource().getItems().indexOf(item);
+                S newItem = readValue(dataSnapshot);
+                if (newItem != null) {
+                    newItem.setId(item.getId());
+                    getResource().updateItem(newItem, index);
+                    notifyItemChanged(index);
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+        for (S item : getResource().getItems()) {
+            if (item.getId().equals(dataSnapshot.getKey())) {
+                int index = getResource().getItems().indexOf(item);
+                getResource().getItems().remove(index);
+                notifyItemRemoved(index);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError databaseError) {
+        onFailure();
+    }
+
+    public S readValue(DataSnapshot dataSnapshot){
+        return dataSnapshot.getValue(modelClass);
     }
 }

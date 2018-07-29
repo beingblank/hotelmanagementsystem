@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="order"
             type="com.mg.hotelmanagementsystem.models.Order" />
+
+        <variable
+            name="listener"
+            type="com.mg.surblime.ObservableRecyclerViewModel.OnItemClickListener" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?selectableItemBackground"
+        android:onClick="@{ (view) -> listener.onItemClick(view, order) }"
         android:orientation="vertical">
 
 
@@ -21,16 +29,18 @@
             android:orientation="horizontal"
             android:padding="@dimen/padding_normal">
 
-            <android.support.v7.widget.AppCompatImageView
-                srcTitle="@{ order }"
-                android:layout_width="@dimen/item_text_drawable_size"
-                android:layout_height="@dimen/item_text_drawable_size" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_large"
                 android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:text="@{ order.title }"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -38,12 +48,12 @@
                     android:orientation="horizontal"
                     tools:ignore="UseCompoundDrawables">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@{ order.title }"
-                        android:textStyle="bold" />
+                    <ImageView
+                        badge="@{ order.status }"
+                        android:layout_width="@dimen/meal_item_category_width"
+                        android:layout_height="@dimen/meal_item_category_height"
+                        android:layout_marginRight="@dimen/margin_small"
+                        tools:ignore="ContentDescription" />
 
                     <ImageView
                         badge="@{ order.table.getTitle() }"
@@ -55,8 +65,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_small"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_small">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -68,27 +78,27 @@
                         meals="@{ order.meals }"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium" />
+                        android:layout_marginTop="@dimen/margin_small" />
 
                     <TextView
                         mealsTotal="@{ order }"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_small"
                         android:textStyle="bold" />
 
                     <ImageView
                         badge="@{ order.status }"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium" />
+                        android:layout_marginTop="@dimen/margin_small" />
 
                     <TextView
                         time="@{ order.orderDate }"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:textAppearance="?android:attr/textColorSecondary" />
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

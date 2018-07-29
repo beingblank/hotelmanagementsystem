@@ -5,26 +5,9 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_dashboard"
-            android:checked="true"
-            android:icon="@drawable/dashboard"
-            android:title="@string/dashboard" />
-        <item
-            android:id="@+id/nav_meals"
-            android:icon="@drawable/restaurant_menu"
-            android:title="@string/meals" />
-        <item
-            android:id="@+id/nav_orders"
-            android:icon="@drawable/order"
-            android:title="@string/orders" />
-        <item
-            android:id="@+id/nav_tables"
-            android:icon="@drawable/tables"
-            android:title="@string/tables" />
-        <item
-            android:id="@+id/nav_users"
-            android:icon="@drawable/users"
-            android:title="@string/users" />
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/logout"
+            android:title="@string/logout" />
     </group>
 
     <!--<item android:title="Manage">-->

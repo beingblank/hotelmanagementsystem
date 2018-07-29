@@ -25,15 +25,10 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.stepstone.stepper.StepperLayout
-        android:id="@+id/stepperLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <fragment
+        android:id="@+id/singleOrderFragment"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:ms_backButtonColor="@color/md_white_1000"
-        app:ms_bottomNavigationBackground="@color/colorPrimary"
-        app:ms_completeButtonColor="@color/md_white_1000"
-        app:ms_completeButtonText="@string/make_order"
-        app:ms_nextButtonColor="@color/md_white_1000"
-        app:ms_stepperType="tabs" />
+        android:name="com.mg.hotelmanagementsystem.fragments.SingleOrderFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </android.support.design.widget.CoordinatorLayout>

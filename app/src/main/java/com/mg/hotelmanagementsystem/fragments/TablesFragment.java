@@ -14,6 +14,7 @@ import com.mg.hotelmanagementsystem.databinding.FragmentTablesBinding;
 import com.mg.hotelmanagementsystem.dialogs.AddTableDialog;
 import com.mg.hotelmanagementsystem.models.Table;
 import com.mg.hotelmanagementsystem.models.viewmodels.TablesViewModel;
+import com.mg.hotelmanagementsystem.util.Tools;
 
 /**
  * Created by moses on 7/12/18.
@@ -43,7 +44,7 @@ public class TablesFragment extends BaseCollectionFragment<TablesViewModel, Tabl
     }
 
     public boolean addTable() {
-        return true;
+        return Tools.getCurrentUser(getContext()).isAdmin();
     }
 
     @Override

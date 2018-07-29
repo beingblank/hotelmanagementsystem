@@ -5,4 +5,20 @@
         <item>Food</item>
         <item>Drink</item>
     </string-array>
+    <string-array name="roles">
+        <item>Waiter</item>
+        <item>Cook</item>
+        <item>Cashier</item>
+    </string-array>
+    <string-array name="order_statuses">
+        <item>Cooking</item>
+        <item>Ready</item>
+        <item>Served</item>
+        <item>Paid</item>
+    </string-array>
+    <string-array name="main_pages">
+        <item>Orders</item>
+        <item>Meals</item>
+        <item>Tables</item>
+    </string-array>
 </resources>

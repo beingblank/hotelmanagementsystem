@@ -13,5 +13,6 @@ public class HotelSystem extends Application {
     public void onCreate() {
         super.onCreate();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
     }
 }

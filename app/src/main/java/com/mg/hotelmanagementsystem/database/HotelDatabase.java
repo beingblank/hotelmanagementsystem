@@ -68,7 +68,7 @@ public class HotelDatabase extends OrmLiteSqliteOpenHelper {
 
     public void deleteUser() {
         try {
-            getDao(User.class).delete(getUser());
+            TableUtils.clearTable(getConnectionSource(), User.class);
         } catch (SQLException ex) {
             Log.e(TAG, "deleteUser", ex);
         }
